@@ -1,14 +1,7 @@
-sudo: false
-language: node_js
-node_js:
-  - 10
-install:
-  - npm install
+sudo: true
 branches:
   only:
     - master # build master branch only
-script:
-  - hexo generate # generate static files
 deploy:
   provider: script
   script: bash scripts/deploy.sh staging
