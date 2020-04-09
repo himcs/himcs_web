@@ -9,6 +9,7 @@ var indexRouter = require('./routes/index');
 var usersRouter = require('./routes/users');
 
 var getCode = require('./util/idea')
+var getSSR =require('./util/ssr')
 
 var app = express();
 
@@ -36,6 +37,15 @@ app.get('/getideacode', function (req, res) {
     })
 
 })
+
+app.get('/getssr', function (req, res) {
+    getSSR((data) => {
+        res.setHeader('Access-Control-Allow-Origin', ' *')
+        res.end(data)
+    })
+
+})
+
 // catch 404 and forward to error handler
 app.use(function (req, res, next) {
     next(createError(404));
