@@ -1,7 +1,4 @@
 sudo: true
-language: node_js
-node_js:
-  - 10
 branches:
   only:
     - master # build master branch only
