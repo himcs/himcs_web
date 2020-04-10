@@ -3,13 +3,17 @@ var router = express.Router();
 var getSSR = require('../util/ssr');
 var getCode = require('../util/idea');
 
-router.get('/ssr', function(req, res, next) {
-     getSSR((data) => {
-         res.end(data);
-    })
+router.post('/ssr', function (req, res, next) {
+    if (req.body.key != 'xia') {
+        res.json({'code': '2', 'msg': 'error key'});
+    } else {
+        getSSR((data) => {
+            res.json({'code': '0', 'data': data});
+        })
+    }
 });
 
-router.get('/ideacode', function(req, res, next) {
+router.get('/ideacode', function (req, res, next) {
     getCode((data) => {
         res.end(data);
     })
