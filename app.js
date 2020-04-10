@@ -3,13 +3,11 @@ var express = require('express');
 var path = require('path');
 var cookieParser = require('cookie-parser');
 var bodyParser = require('body-parser')
+var cors = require('cors')
 var logger = require('morgan');
 
 var indexRouter = require('./routes/index');
-var usersRouter = require('./routes/users');
-
-var getCode = require('./util/idea')
-var getSSR =require('./util/ssr')
+var apiRouter = require('./routes/api');
 
 var app = express();
 
@@ -17,6 +15,7 @@ var app = express();
 app.set('views', path.join(__dirname, 'views'));
 app.set('view engine', 'jade');
 
+app.use(cors());
 app.use(logger('dev'));
 app.use(express.json());
 app.use(express.urlencoded({extended: false}));
@@ -29,22 +28,8 @@ app.use(bodyParser.urlencoded({extended: false}))
 app.use(bodyParser.json())
 
 app.use('/', indexRouter);
-app.use('/users', usersRouter);
-app.get('/getideacode', function (req, res) {
-    getCode((data) => {
-        res.setHeader('Access-Control-Allow-Origin', ' *')
-        res.end(data)
-    })
+app.use('/api', apiRouter);
 
-})
-
-app.get('/getssr', function (req, res) {
-    getSSR((data) => {
-        res.setHeader('Access-Control-Allow-Origin', ' *')
-        res.end(data)
-    })
-
-})
 
 // catch 404 and forward to error handler
 app.use(function (req, res, next) {
